@@ -21,7 +21,6 @@ export default function Dashboard({ token }) {
       axios
         .request(config)
         .then((response) => {
-          console.log(response)
           setData(response.data.data)
         })
         .catch((error) => {
@@ -35,7 +34,6 @@ export default function Dashboard({ token }) {
     return () => setData([])
   }, [])
 
-  console.log(data)
   return (
     <div className='rounded-3xl bg-white shadow-[0_2px_20px_0_rgba(0,0,0,0.2)] px-10 py-8'>
       <div className='py-4 mb-6'>
