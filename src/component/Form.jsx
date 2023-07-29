@@ -3,6 +3,11 @@ import { useState } from 'react'
 import * as yup from 'yup'
 import ic_email from '/public/icon/person.png'
 import ic_password from '/public/icon/lock.png'
+import axios from 'axios'
+
+const BASE_URL = import.meta.env.VITE_API
+const APP_ID = import.meta.env.VITE_CLIENT_ID
+const APP_SECRET = import.meta.env.VITE_CLIENT_SECRE
 
 const loginSchema = yup.object().shape({
   email: yup.string().email('Email is required').required('email is required'),
@@ -12,12 +17,32 @@ const loginSchema = yup.object().shape({
     .min(6, 'Password length minimum is 6'),
 })
 
-export default function Form() {
+export default function Form({setToken}) {
   const [errors, setErrors] = useState({})
   async function handleSubmit(values) {
     try {
       await loginSchema.validate(values, { abortEarly: false })
       setErrors({})
+      const config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: `${BASE_URL}/users/authenticate`,
+        headers: {
+          'CF-Access-Client-Id': '8853ca70ca342d5659242857edb234de.access',
+          'CF-Access-Client-Secret':
+            'eec6df88a2637183a3df2171f944a2b58eed7ed645eb368edb51437ee8cdd777',
+        },
+        data: values,
+      }
+
+      axios
+        .request(config)
+        .then((response) => {
+          setToken(response.data.token)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } catch (errors) {
       const errorMessages = {}
       errors.inner.forEach((error) => {
@@ -48,16 +73,24 @@ export default function Form() {
                 placeholder='user@user.com'
               />
             </div>
-            {errors.email && <p className='relative text-left mt-4 text-xs text-[#FF0000]'>{errors.email}</p>}
+            {errors.email && (
+              <p className='relative text-left mt-4 text-xs text-[#FF0000]'>
+                {errors.email}
+              </p>
+            )}
             <div className='w-full rounded-full relative flex items-center border border-[##DAD9D0] py-[14px] px-5 gap-[10px] mt-4'>
               <img src={ic_email} alt='email' className='w-6 h-6' />
               <Field
                 name='password'
                 className='bg-transparent outline-none border-none text-[#5B5B56] w-full'
-                type="password"
+                type='password'
               />
             </div>
-            {errors.password && <p className='relative text-left mt-4 text-xs text-[#FF0000]'>{errors.password}</p>}
+            {errors.password && (
+              <p className='relative text-left mt-4 text-xs text-[#FF0000]'>
+                {errors.password}
+              </p>
+            )}
             <button
               className='mt-6 w-full py-4 bg-[#F06623] border border-[#F06623] text-[#F9F9F4] rounded-full font-semibold'
               type='submit'

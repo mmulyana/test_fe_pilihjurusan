@@ -15,7 +15,6 @@ function App() {
       setIsAuthenticated(local)
     }
   }, [])
-  if (!isAuthenticated) {
     return (
       <> 
         <img src={im_logo} className='absolute top-[54px] left-[100px]'/>
@@ -23,12 +22,10 @@ function App() {
         <img src={im_hero2} className='absolute left-0 bottom-[10px] translate-y-0'/>
         <img src={im_line} className='absolute left-1/2 -translate-x-1/2 bottom-6 w-full translate-y-0 -z-10'/>
         <div className='max-w-[508px] absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2'>
-          <Form />
+          {isAuthenticated ? 'udah login' : <Form setToken={setIsAuthenticated}/>}
         </div>
       </>
     )
-  }
-  return <p>Hello World</p>
 }
 
 export default App
