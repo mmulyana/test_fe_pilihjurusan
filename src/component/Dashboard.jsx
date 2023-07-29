@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 const BASE_URL = import.meta.env.VITE_API
 
-export default function Dashboard({ token }) {
+export default function Dashboard({ token, setToken, setIsAuthenticated }) {
   console.log(token)
   const [data, setData] = useState([])
   async function getData() {
@@ -46,9 +46,17 @@ export default function Dashboard({ token }) {
         <p className='text-[#393934] text-xs mb-2 text-left'>Daftar makanan</p>
         <ul className='list-disc px-4'>
           {data.map((d) => (
-            <li key={d.id} className='text-[#393934] text-xs text-left'>{d.name}</li>
+            <li key={d.id} className='text-[#393934] text-xs text-left'>
+              {d.name}
+            </li>
           ))}
         </ul>
+        <button
+          className='mt-6 w-full py-4 bg-[#F06623] border border-[#F06623] text-[#F9F9F4] rounded-full font-semibold'
+          type='submit'
+        >
+          Keluar
+        </button>
       </div>
     </div>
   )
