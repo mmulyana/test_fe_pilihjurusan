@@ -33,7 +33,7 @@ function App() {
         src={im_line}
         className='absolute left-1/2 -translate-x-1/2 bottom-6 w-full translate-y-0 -z-10'
       />
-      <div className='max-w-[508px] absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2'>
+      <div className='w-[508px] absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2'>
         {isAuthenticated ? (
           <Dashboard token={token} setIsAuthenticated={setIsAuthenticated} setToken={setToken} />
         ) : (
