@@ -17,7 +17,7 @@ const loginSchema = yup.object().shape({
     .min(6, 'Password length minimum is 6'),
 })
 
-export default function Form({setToken}) {
+export default function Form({ setToken, setIsAuthenticated }) {
   const [errors, setErrors] = useState({})
   async function handleSubmit(values) {
     try {
@@ -39,6 +39,8 @@ export default function Form({setToken}) {
         .request(config)
         .then((response) => {
           setToken(response.data.token)
+          setIsAuthenticated(true)
+          localStorage.setItem('TOKEN',  response.data.token)
         })
         .catch((error) => {
           console.log(error)
